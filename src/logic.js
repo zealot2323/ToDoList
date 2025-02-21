@@ -1,11 +1,11 @@
-class ProjectManager {
+export default class ProjectManager {
     constructor() {
         this.projects = [];
     }
 
     createProject(name) {
         const project = new Project(name);
-        this.projects.push(project); 
+        return this.projects.push(project) - 1; 
     }
     
     deleteProject(i) {
@@ -21,6 +21,14 @@ class Project {
     constructor(name) {
         this.name = name, 
         this.tasks = new TaskManager();
+    }
+
+    getTasks() {
+        return this.tasks.tasks;
+    }
+
+    update(updates) {
+        Object.assign(this, updates);
     }
 };
 
@@ -59,22 +67,3 @@ class Task {
 };
 
 //testing
-const instance = new ProjectManager();
-console.log(instance);
-
-instance.createProject("My Tasks");
-console.log(instance);
-
-const myTasks = instance.getProject(0);
-
-myTasks.tasks.createTask({title: "Test task", desc: "blah blah blah", dueDate: "10/1/2025", priority: "1", completed: false});
-console.log(myTasks.tasks);
-
-myTasks.tasks.getTask(0).complete();
-console.log(myTasks.tasks);
-
-myTasks.tasks.getTask(0).update({ title: "Updated Task" });
-console.log(myTasks.tasks);
-
-myTasks.tasks.deleteTask(0);
-console.log(myTasks.tasks);

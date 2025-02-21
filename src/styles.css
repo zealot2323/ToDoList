@@ -1,0 +1,25 @@
+* {
+    background-color: rgb(38, 49, 49);
+    color:azure;
+    font-family: 'Space Grotesk', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+}
+
+header {
+    width: 300px;
+}
+
+.taskContainer {
+    flex: 2;
+}
+
+.taskDetailContainer {
+    flex: 1.5;
+}
+
+.project.active {
+    font-weight: bold;
+}

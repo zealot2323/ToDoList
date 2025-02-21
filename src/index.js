@@ -1,3 +1,4 @@
 import "./styles.css";
+import buildPage from "./pageBuilder";
 
-//link in pagebuilder
+const ui = new buildPage();
