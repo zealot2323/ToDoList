@@ -1,15 +1,27 @@
 export default class ProjectManager {
     constructor() {
-        this.projects = [];
+        this.projects = this.loadProjects();
+    }
+
+    saveProjects() {
+        localStorage.setItem("projects", JSON.stringify(this.projects.map(p => ({ name: p.name }))));
+    }
+
+    loadProjects() {
+        const savedProjects = JSON.parse(localStorage.getItem("projects")) || [];
+        return savedProjects.map(p => new Project(p.name));
     }
 
     createProject(name) {
         const project = new Project(name);
-        return this.projects.push(project) - 1; 
+        const lengthProj = this.projects.push(project) - 1;
+        this.saveProjects();
+        return lengthProj
     }
     
     deleteProject(i) {
-        return this.projects.splice(i, i);
+         this.projects.splice(i, i);
+         this.saveProjects;
     }
 
     getProject(i)  {
@@ -20,7 +32,7 @@ export default class ProjectManager {
 class Project {
     constructor(name) {
         this.name = name, 
-        this.tasks = new TaskManager();
+        this.tasks = new TaskManager(name);
     }
 
     getTasks() {
@@ -34,17 +46,29 @@ class Project {
 
 class TaskManager {
 
-    constructor() {
-        this.tasks = [];
+    constructor(projectName) {
+        this.projectName = projectName;
+        this.tasks = this.loadTasks();
+    }
+
+    saveTasks() {
+        localStorage.setItem(`tasks_${this.projectName}`, JSON.stringify(this.tasks));
+    }
+
+    loadTasks() {
+        const savedTasks = JSON.parse(localStorage.getItem(`tasks_${this.projectName}`)) || [];
+        return savedTasks.map(t => new Task(t));
     }
 
     createTask({title, desc, dueDate, priority, completed}) {
         const task = new Task ({title, desc, dueDate, priority, completed});
         this.tasks.push(task);
+        this.saveTasks();
     }
 
     deleteTask(i) {
-        return this.tasks.splice(i, 1);
+        this.tasks.splice(i, 1);
+        this.saveTasks();
     }
 
     getTask(i) {
